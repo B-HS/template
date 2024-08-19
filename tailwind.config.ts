@@ -3,7 +3,7 @@ import { fontFamily } from 'tailwindcss/defaultTheme'
 
 const config = {
     darkMode: ['class'],
-    content: ['./**/*.{ts,tsx}'],
+    content: ['./shared/ui/**/*.tsx', './widgets/**/*.tsx', './features/**/*.tsx', './app/**/*.tsx', './lib/**/*.tsx', './entities/**/*.tsx'],
     prefix: '',
     theme: {
         container: {
