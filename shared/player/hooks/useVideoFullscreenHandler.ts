@@ -4,6 +4,7 @@ import { useExtraOptionsStore } from '../player-store'
 export const useVideoFullScreenHandler = () => {
     const { extraOptions, setExtraOptions } = useExtraOptionsStore()
     useEffect(() => {
+        // eslint-disable-next-line
         let timeout: string | number | NodeJS.Timeout | undefined
 
         const handleMouseMove = () => {

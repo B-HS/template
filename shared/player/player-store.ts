@@ -19,6 +19,7 @@ export type PlayerOptions = {
 export type ExtraOptions = {
     isFull: boolean
     playedRatio: number
+    loadedRatio: number
     isCursorVisible: boolean
 }
 
@@ -41,9 +42,11 @@ export const defaultPlayerOptions: PlayerOptions = {
 export const defaultExtraOptions: ExtraOptions = {
     isFull: false,
     playedRatio: 0,
+    loadedRatio: 0,
     isCursorVisible: true,
 }
 
+// eslint-disable-next-line no-unused-vars
 export const usePlayerStore = create<{ playerOptions: PlayerOptions; setPlayerOptions: (options: Partial<PlayerOptions>) => void }>((set) => ({
     playerOptions: defaultPlayerOptions,
     setPlayerOptions: (options) =>
@@ -52,11 +55,14 @@ export const usePlayerStore = create<{ playerOptions: PlayerOptions; setPlayerOp
         })),
 }))
 
+// eslint-disable-next-line no-unused-vars
 export const useExtraOptionsStore = create<{ extraOptions: ExtraOptions; setExtraOptions: (options: Partial<ExtraOptions>) => void }>((set) => ({
     extraOptions: defaultExtraOptions,
     setExtraOptions: (options) =>
         set((state) => ({
-            ...state,
-            ...options,
+            extraOptions: {
+                ...state.extraOptions,
+                ...options,
+            },
         })),
 }))

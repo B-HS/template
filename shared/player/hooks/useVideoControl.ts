@@ -11,10 +11,10 @@ export const useVideoControl = ({ player }: { player: RefObject<ReactPlayer> }) 
         setPlayerOptions({ playing: !playerOptions.playing })
     }
 
-    const playSeekTo = (sec: number) => {
+    const playSeekTo = (fraction: number) => {
         const currentTime = player.current?.getCurrentTime()
         if (currentTime !== undefined) {
-            player.current?.seekTo(currentTime + sec, 'seconds')
+            player.current?.seekTo(fraction / 100, 'fraction')
         }
     }
 
@@ -40,10 +40,6 @@ export const useVideoControl = ({ player }: { player: RefObject<ReactPlayer> }) 
         }
     }
 
-    const seekBarChange = (value: number[]) => {
-        player.current?.seekTo(value[0], 'seconds')
-    }
-
     return {
         playToggle,
         playSeekTo,
@@ -51,6 +47,5 @@ export const useVideoControl = ({ player }: { player: RefObject<ReactPlayer> }) 
         playRateChange,
         pipModeToggle,
         fullscreenToggle,
-        seekBarChange,
     }
 }
