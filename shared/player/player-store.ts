@@ -1,4 +1,3 @@
-import Hls from 'hls.js'
 import { RefObject } from 'react'
 import ReactPlayer from 'react-player'
 import { create } from 'zustand'
@@ -25,7 +24,6 @@ export type PlayerOptions = {
 
 export type ExtraOptions = {
     player: RefObject<ReactPlayer> | null
-    hlsRef: RefObject<Hls> | null
     isFull: boolean
     languages: TrackOpt[]
     audios: AudioOpt[]
@@ -55,7 +53,6 @@ export const defaultPlayerOptions: PlayerOptions = {
 
 export const defaultExtraOptions: ExtraOptions = {
     player: null,
-    hlsRef: null,
     isFull: false,
     languages: [],
     audios: [],

@@ -3,24 +3,20 @@
 import { Badge } from '@shared/ui/badge'
 import { TooltipProvider } from '@shared/ui/tooltip'
 import { cn } from '@shared/utils'
-import Hls from 'hls.js'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { OnProgressProps } from 'react-player/base'
-import { useHlsControl, useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
+import { useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
 import { Fullscreen, Pip, Play, Time, VideoSlider, Volume } from './layout'
 import { defaultExtraOptions, defaultPlayerOptions, useExtraOptionsStore, usePlayerStore } from './player-store'
 
 const Player = ({ url, title }: { url: string; title?: string }) => {
     const player = useRef<ReactPlayer>(null)
-    const hlsRef = useRef<Hls | null>(null)
     const [isInitialized, setIsInitialized] = useState(false)
-    const [subInfoLoaded, setSubInfoLoaded] = useState(false)
     const { extraOptions, setExtraOptions } = useExtraOptionsStore()
     const { playerOptions, setPlayerOptions } = usePlayerStore()
-    const { playSeekTo, playToggle } = useVideoControl()
-    const { getQualityList, getTextTrackList, getAudioTrackList, setQuality, setTextTrack } = useHlsControl()
+    const { playSeekTo, playToggle, setSubtitle, setAudioTrack, setQuality, currentAudioTrack, currentQuality, currentSubtitle } = useVideoControl()
 
     const videoOnprogressFn = (progress: OnProgressProps) => {
         setExtraOptions({
@@ -47,33 +43,6 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
             setExtraOptions(defaultExtraOptions)
         }
     }, [url, setPlayerOptions, setExtraOptions])
-
-    useEffect(() => {
-        if (player.current) {
-            const videoElement = player.current.getInternalPlayer() as HTMLVideoElement
-            if (Hls.isSupported()) {
-                const hls = new Hls()
-                hls.loadSource(url)
-                hls.attachMedia(videoElement)
-                hlsRef.current = hls
-                setExtraOptions({ hlsRef })
-            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                videoElement.src = url
-            } else {
-                console.error('HLS is not supported in this browser')
-            }
-        }
-    }, [isInitialized])
-
-    useEffect(() => {
-        if (extraOptions.loadedSeconds > 0 && !subInfoLoaded) {
-            setExtraOptions({
-                qualities: getQualityList(),
-                audios: getAudioTrackList(),
-                languages: getTextTrackList(),
-            })
-        }
-    }, [extraOptions.loadedSeconds])
 
     return (
         isInitialized && (
@@ -119,12 +88,23 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                     />
                     <section>
                         {extraOptions.qualities.map((ele) => (
-                            <Badge onClick={() => setQuality(ele)}>{ele.resolution}</Badge>
+                            <Badge onClick={() => setQuality(ele.index)} key={ele.index}>
+                                {ele.resolution}
+                            </Badge>
                         ))}
                     </section>
                     <section>
                         {extraOptions.languages.map((ele) => (
-                            <Badge onClick={() => setTextTrack(ele)}>{ele.language}</Badge>
+                            <Badge onClick={() => setSubtitle(ele.index)} key={ele.index}>
+                                {ele.language}
+                            </Badge>
+                        ))}
+                    </section>
+                    <section>
+                        {extraOptions.audios.map((ele) => (
+                            <Badge onClick={() => setAudioTrack(ele.index)} key={ele.index}>
+                                {ele.language}
+                            </Badge>
                         ))}
                     </section>
                 </section>

@@ -1,9 +1,11 @@
+import { useEffect } from 'react'
 import screenfull from 'screenfull'
-import { TrackOpt, useExtraOptionsStore, usePlayerStore } from '../player-store'
+import { useExtraOptionsStore, usePlayerStore } from '../player-store'
 
 export const useVideoControl = () => {
     const { extraOptions, setExtraOptions } = useExtraOptionsStore()
     const { playerOptions, setPlayerOptions } = usePlayerStore()
+    const player = extraOptions.player?.current
 
     const playToggle = (value?: boolean) => {
         if (value !== undefined) {
@@ -26,7 +28,6 @@ export const useVideoControl = () => {
     }
 
     const muteToggle = () => {
-        console.log('muteToggle')
         setPlayerOptions({ muted: !playerOptions.muted })
     }
 
@@ -48,6 +49,87 @@ export const useVideoControl = () => {
         }
     }
 
+    const currentQuality = () => player?.getInternalPlayer('hls').currentLevel
+
+    const currentAudioTrack = () => player?.getInternalPlayer('hls').audioTrackController.audioTrack
+
+    const currentSubtitle = () =>
+        Array.from(player?.getInternalPlayer()!.textTracks || []).find((track: any) => track.mode === 'showing') as {
+            label: string
+            language: string
+            kind: string
+        }
+
+    const setSubtitle = (index: number) => {
+        const video = player?.getInternalPlayer() as HTMLVideoElement
+        Array.from(video.textTracks).forEach((track: any) => {
+            track.mode = 'disabled'
+        })
+        video.textTracks[index].mode = 'showing'
+    }
+
+    const setAudioTrack = (index: number) => {
+        player && (player.getInternalPlayer('hls').audioTrackController.audioTrack = index)
+    }
+
+    const setQuality = (index: number) => {
+        player && (player.getInternalPlayer('hls').currentLevel = index)
+    }
+
+    useEffect(() => {
+        if (player && extraOptions.loadedSeconds > 0) {
+            const videoElement = player.getInternalPlayer('hls')
+            setExtraOptions({
+                qualities: videoElement.levels.map(
+                    (
+                        level: {
+                            bitrate: number
+                            width: number
+                            height: number
+                        },
+                        index: number,
+                    ) => ({
+                        index: index,
+                        bitrate: level.bitrate,
+                        resolution: `${level.width}x${level.height}`,
+                    }),
+                ),
+                audios: videoElement.audioTracks.map(
+                    (
+                        track: {
+                            name: string
+                            lang?: string
+                            groupId: string
+                        },
+                        index: number,
+                    ) => ({
+                        index: index,
+                        name: track.name,
+                        language: track.lang || '',
+                        groupId: track.groupId,
+                    }),
+                ),
+                languages: videoElement.subtitleTracks.map(
+                    (
+                        track: {
+                            name: string
+                            lang: string
+                            groupId: string
+                            kind: string
+                        },
+                        index: number,
+                    ) => ({
+                        index: index,
+                        name: track.name,
+                        language: track.lang,
+                        groupId: track.groupId,
+                        kind: track.kind,
+                    }),
+                ),
+            })
+        }
+    }, [extraOptions.loadedSeconds])
+
     return {
         playToggle,
         playSeekTo,
@@ -56,5 +138,11 @@ export const useVideoControl = () => {
         playRateChange,
         pipModeToggle,
         fullscreenToggle,
+        currentQuality,
+        currentAudioTrack,
+        currentSubtitle,
+        setSubtitle,
+        setAudioTrack,
+        setQuality,
     }
 }
