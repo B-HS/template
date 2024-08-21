@@ -1,3 +1,7 @@
-export { VideoSlider } from './video-slider'
 export { BigPlay } from './big-play'
+export { Fullscreen } from './fullscreen'
+export { Pip } from './pip'
 export { Play } from './play'
+export { Time } from './time'
+export { VideoSlider } from './video-slider'
+export { Volume } from './volume'

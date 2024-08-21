@@ -1,24 +1,32 @@
-import { RefObject } from 'react'
-import ReactPlayer from 'react-player'
 import screenfull from 'screenfull'
-import { useExtraOptionsStore, usePlayerStore } from '../player-store'
+import { TrackOpt, useExtraOptionsStore, usePlayerStore } from '../player-store'
 
-export const useVideoControl = ({ player }: { player: RefObject<ReactPlayer> }) => {
-    const { setExtraOptions } = useExtraOptionsStore()
+export const useVideoControl = () => {
+    const { extraOptions, setExtraOptions } = useExtraOptionsStore()
     const { playerOptions, setPlayerOptions } = usePlayerStore()
 
-    const playToggle = () => {
+    const playToggle = (value?: boolean) => {
+        if (value !== undefined) {
+            setPlayerOptions({ playing: value })
+            return
+        }
         setPlayerOptions({ playing: !playerOptions.playing })
     }
 
     const playSeekTo = (fraction: number) => {
-        const currentTime = player.current?.getCurrentTime()
+        const currentTime = extraOptions.player?.current?.getCurrentTime()
         if (currentTime !== undefined) {
-            player.current?.seekTo(fraction / 100, 'fraction')
+            extraOptions.player?.current?.seekTo(fraction / 100, 'fraction')
         }
     }
 
+    const playSeekToBySeconds = (seconds: number) => {
+        const currentTime = extraOptions.player?.current?.getCurrentTime() || 0
+        extraOptions.player?.current?.seekTo(currentTime + seconds)
+    }
+
     const muteToggle = () => {
+        console.log('muteToggle')
         setPlayerOptions({ muted: !playerOptions.muted })
     }
 
@@ -43,6 +51,7 @@ export const useVideoControl = ({ player }: { player: RefObject<ReactPlayer> }) 
     return {
         playToggle,
         playSeekTo,
+        playSeekToBySeconds,
         muteToggle,
         playRateChange,
         pipModeToggle,

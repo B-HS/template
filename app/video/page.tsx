@@ -3,7 +3,7 @@ import Player from '@shared/player/player'
 const Page = () => {
     return (
         <section className='h-96 w-full'>
-            <Player url='https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8' />
+            <Player url='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8' />
         </section>
     )
 }

@@ -1,4 +1,11 @@
+import Hls from 'hls.js'
+import { RefObject } from 'react'
+import ReactPlayer from 'react-player'
 import { create } from 'zustand'
+
+export type TrackOpt = { index: number; name: string; language: string; groupId: string; kind: string }
+export type AudioOpt = { index: number; name: string; language: string; groupId: string }
+export type QualityOpt = { index: number; bitrate: number; resolution: string }
 
 export type PlayerOptions = {
     url: string
@@ -17,10 +24,17 @@ export type PlayerOptions = {
 }
 
 export type ExtraOptions = {
+    player: RefObject<ReactPlayer> | null
+    hlsRef: RefObject<Hls> | null
     isFull: boolean
+    languages: TrackOpt[]
+    audios: AudioOpt[]
+    qualities: QualityOpt[]
     playedRatio: number
     loadedRatio: number
     isCursorVisible: boolean
+    playedSeconds: number
+    loadedSeconds: number
 }
 
 export const defaultPlayerOptions: PlayerOptions = {
@@ -29,7 +43,7 @@ export const defaultPlayerOptions: PlayerOptions = {
     loop: false,
     controls: false,
     light: false,
-    volume: 100,
+    volume: 1,
     muted: false,
     width: '100%',
     height: '100%',
@@ -40,9 +54,16 @@ export const defaultPlayerOptions: PlayerOptions = {
 }
 
 export const defaultExtraOptions: ExtraOptions = {
+    player: null,
+    hlsRef: null,
     isFull: false,
+    languages: [],
+    audios: [],
+    qualities: [],
     playedRatio: 0,
     loadedRatio: 0,
+    playedSeconds: 0,
+    loadedSeconds: 0,
     isCursorVisible: true,
 }
 

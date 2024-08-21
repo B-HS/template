@@ -13,7 +13,7 @@ export const VideoSlider = React.forwardRef<
     <SliderPrimitive.Root ref={ref} className={cn('relative flex w-full touch-none select-none items-center cursor-pointer', className)} {...props}>
         <SliderPrimitive.Track className='relative h-1.5 w-full grow overflow-hidden rounded-full bg-foreground/20'>
             <div
-                className={`absolute h-1.5 transition-all bg-foreground/10`}
+                className={`absolute h-1.5 bg-foreground/10`}
                 style={{
                     width: `${loadedRatio}%`,
                 }}
