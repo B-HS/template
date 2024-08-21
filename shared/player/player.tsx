@@ -1,6 +1,5 @@
 'use client'
 
-import { Badge } from '@shared/ui/badge'
 import { TooltipProvider } from '@shared/ui/tooltip'
 import { cn } from '@shared/utils'
 import dynamic from 'next/dynamic'
@@ -8,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { OnProgressProps } from 'react-player/base'
 import { useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
-import { Fullscreen, Pip, Play, Time, VideoSlider, Volume } from './layout'
+import { Fullscreen, Pip, Play, Resolution, Time, VideoSlider, Volume } from './layout'
 import { defaultExtraOptions, defaultPlayerOptions, useExtraOptionsStore, usePlayerStore } from './player-store'
 
 const Player = ({ url, title }: { url: string; title?: string }) => {
@@ -16,7 +15,7 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
     const [isInitialized, setIsInitialized] = useState(false)
     const { extraOptions, setExtraOptions } = useExtraOptionsStore()
     const { playerOptions, setPlayerOptions } = usePlayerStore()
-    const { playSeekTo, playToggle, setSubtitle, setAudioTrack, setQuality, currentAudioTrack, currentQuality, currentSubtitle } = useVideoControl()
+    const { playSeekTo, playToggle } = useVideoControl()
 
     const videoOnprogressFn = (progress: OnProgressProps) => {
         setExtraOptions({
@@ -74,6 +73,7 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                                 onPointerUp={() => setPlayerOptions({ playing: true })}
                             />
                             <section className='flex'>
+                                <Resolution />
                                 <Volume />
                                 <Pip />
                                 <Fullscreen />
@@ -86,27 +86,6 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                         onProgress={videoOnprogressFn}
                         {...playerOptions}
                     />
-                    <section>
-                        {extraOptions.qualities.map((ele) => (
-                            <Badge onClick={() => setQuality(ele.index)} key={ele.index}>
-                                {ele.resolution}
-                            </Badge>
-                        ))}
-                    </section>
-                    <section>
-                        {extraOptions.languages.map((ele) => (
-                            <Badge onClick={() => setSubtitle(ele.index)} key={ele.index}>
-                                {ele.language}
-                            </Badge>
-                        ))}
-                    </section>
-                    <section>
-                        {extraOptions.audios.map((ele) => (
-                            <Badge onClick={() => setAudioTrack(ele.index)} key={ele.index}>
-                                {ele.language}
-                            </Badge>
-                        ))}
-                    </section>
                 </section>
             </TooltipProvider>
         )

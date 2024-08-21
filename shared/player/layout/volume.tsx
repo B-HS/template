@@ -12,7 +12,7 @@ export const Volume = ({ className }: { className?: ClassNameValue }) => {
     const { playerOptions, setPlayerOptions } = usePlayerStore()
 
     return (
-        <Tooltip delayDuration={0} defaultOpen={true}>
+        <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
                 <Button size={'icon'} variant={'ghost'} className={cn('rounded-none', className)} onClick={muteToggle}>
                     {playerOptions.muted || playerOptions.volume === 0 ? (

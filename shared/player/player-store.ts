@@ -84,3 +84,12 @@ export const useExtraOptionsStore = create<{ extraOptions: ExtraOptions; setExtr
             },
         })),
 }))
+
+export const resolutionMapper = (resolution: QualityOpt): { width: string; height: string } => {
+    try {
+        const [width, height] = resolution.resolution.split('x')
+        return { width, height }
+    } catch (error) {
+        return { width: '0', height: '0' }
+    }
+}

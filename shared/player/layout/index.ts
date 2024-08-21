@@ -1,3 +1,4 @@
+export { Resolution } from './resolution'
 export { BigPlay } from './big-play'
 export { Fullscreen } from './fullscreen'
 export { Pip } from './pip'

@@ -128,6 +128,7 @@ export const useVideoControl = () => {
                 ),
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [extraOptions.loadedSeconds])
 
     return {
