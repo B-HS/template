@@ -1,14 +1,15 @@
 import { Button } from '@shared/ui/button'
-import { DropdownMenuSeparator } from '@shared/ui/dropdown-menu'
+import { Separator } from '@shared/ui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@shared/ui/tooltip'
 import { cn } from '@shared/utils'
 import { SlidersVertical } from 'lucide-react'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { ClassNameValue } from 'tailwind-merge'
 import { useVideoControl } from '../hooks'
 import { resolutionMapper, useExtraOptionsStore, usePlayerStore } from '../player-store'
 
 export const Resolution = ({ className }: { className?: ClassNameValue }) => {
+    const [current, setCurrent] = useState<string>('')
     const { extraOptions } = useExtraOptionsStore()
     const { currentQuality, setQuality } = useVideoControl()
     const { playerOptions } = usePlayerStore()
@@ -24,13 +25,19 @@ export const Resolution = ({ className }: { className?: ClassNameValue }) => {
             <TooltipContent className='flex flex-col p-0' side='top'>
                 {quality !== '0' && (
                     <Fragment>
-                        <span className='px-2 py-1 cursor-pointer'>{quality}p</span>
-                        <DropdownMenuSeparator />
+                        <span className='px-2 py-1 cursor-pointer'>{current || quality}p</span>
+                        <Separator />
                     </Fragment>
                 )}
                 <section className='flex flex-col'>
                     {extraOptions.qualities.map((quality, idx) => (
-                        <span className='px-2 py-1 cursor-pointer' key={idx} onClick={() => setQuality(idx)}>
+                        <span
+                            className='px-2 py-1 cursor-pointer'
+                            key={idx}
+                            onClick={() => {
+                                setCurrent(resolutionMapper(quality).height)
+                                setQuality(idx)
+                            }}>
                             {resolutionMapper(quality).height}p
                         </span>
                     ))}
