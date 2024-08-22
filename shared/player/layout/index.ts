@@ -1,4 +1,4 @@
-export { BigPlay } from './big-play'
+export { Audio } from './audio'
 export { Fullscreen } from './fullscreen'
 export { Language } from './language'
 export { Pip } from './pip'

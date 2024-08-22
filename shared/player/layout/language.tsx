@@ -6,13 +6,15 @@ import { Languages } from 'lucide-react'
 import { Fragment, useMemo } from 'react'
 import { ClassNameValue } from 'tailwind-merge'
 import { useVideoControl } from '../hooks'
-import { useExtraOptionsStore } from '../player-store'
+import { useExtraOptionsStore, usePlayerStore } from '../player-store'
 
 export const Language = ({ className }: { className?: ClassNameValue }) => {
     const { extraOptions } = useExtraOptionsStore()
+    const { playerOptions } = usePlayerStore()
     const { currentSubtitle, setSubtitle } = useVideoControl()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const language = useMemo(() => currentSubtitle(), [extraOptions.playedSeconds])
+    const language = useMemo(() => currentSubtitle(), [playerOptions.playing])
+
     return (
         <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
