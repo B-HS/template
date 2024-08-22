@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { OnProgressProps } from 'react-player/base'
 import { useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
-import { Fullscreen, Pip, Play, Resolution, Time, VideoSlider, Volume } from './layout'
+import { Fullscreen, Language, Pip, Play, Resolution, Time, VideoSlider, Volume } from './layout'
 import { defaultExtraOptions, defaultPlayerOptions, useExtraOptionsStore, usePlayerStore } from './player-store'
 
 const Player = ({ url, title }: { url: string; title?: string }) => {
@@ -60,7 +60,7 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                             <Play className={'size-16 text-lg rounded-full hover:bg-opacity-30'} />
                         </section>
                         <section className='flex gap-2 w-full'>
-                            <Play />
+                            <Play className={'h-fit p-2'} />
                             <Time />
                             <VideoSlider
                                 value={[extraOptions.playedRatio * 100]}
@@ -73,6 +73,7 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                                 onPointerUp={() => setPlayerOptions({ playing: true })}
                             />
                             <section className='flex'>
+                                <Language />
                                 <Resolution />
                                 <Volume />
                                 <Pip />
