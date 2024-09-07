@@ -13,3 +13,4 @@
 - start rating component
 - tooltip button wrapper component
 - horizontal vertical scroll status component
+- AWS Cognito user login/register
