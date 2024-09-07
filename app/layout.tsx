@@ -1,7 +1,7 @@
 import { Toaster } from '@shared/ui/toaster'
 import { cn } from '@shared/utils'
 import { SiteHeader } from '@widgets/header'
-import { ThemeProvider } from '@widgets/provider'
+import { SessionProvider, ThemeProvider } from '@widgets/provider'
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { M_PLUS_Rounded_1c } from 'next/font/google'
@@ -24,15 +24,17 @@ const fontRound = M_PLUS_Rounded_1c({
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang='ko' suppressHydrationWarning>
-            <body className={cn('flex flex-col min-h-dvh h-full font-mplus antialiased', fontRound.variable)}>
-                <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-                    <SiteHeader />
-                    <section className='max-w-screen-2xl size-full mx-auto px-3'>
-                        {children}
-                        <GoToTop />
-                        <Toaster />
-                    </section>
-                </ThemeProvider>
+            <body className={cn('flex flex-col min-h-dvh font-mplus antialiased', fontRound.variable)}>
+                <SessionProvider>
+                    <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+                        <SiteHeader />
+                        <section className='max-w-screen-2xl size-full mx-auto flex flex-col flex-1'>
+                            {children}
+                            <GoToTop />
+                            <Toaster />
+                        </section>
+                    </ThemeProvider>
+                </SessionProvider>
             </body>
         </html>
     )

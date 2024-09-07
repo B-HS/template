@@ -1,4 +1,4 @@
-import { TooltipIcon } from '@features/common'
+import { SignInOut, TooltipIcon } from '@features/common'
 import { DotsHorizontalIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
 import { buttonVariants } from '@shared/ui/button'
 import dynamic from 'next/dynamic'
@@ -22,6 +22,7 @@ export const SiteHeader = async () => {
                 <section className='flex gap-2 items-center'>
                     <TooltipIcon icon={GitHubLogoIcon} linkUrl='https://github.com/B-HS' tooltipContent='Go to Github' />
                     <ThemeChanger />
+                    <SignInOut />
                 </section>
             </section>
             <ScrollStatus />
