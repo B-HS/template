@@ -31,8 +31,8 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
                         <section className='max-w-screen-2xl size-full mx-auto flex flex-col flex-1'>
                             {children}
                             <GoToTop />
-                            <Toaster />
                         </section>
+                        <Toaster />
                     </ThemeProvider>
                 </SessionProvider>
             </body>

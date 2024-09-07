@@ -6,10 +6,14 @@ import { Button } from '@shared/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@shared/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form'
 import { Input } from '@shared/ui/input'
+import { useToast } from '@shared/ui/use-toast'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const RegisterPage = () => {
+    const { toast } = useToast()
+    const router = useRouter()
     const form = useForm<z.infer<typeof UserRegisteration>>({
         resolver: zodResolver(UserRegisteration),
         defaultValues: {
@@ -27,6 +31,12 @@ const RegisterPage = () => {
             },
             body: JSON.stringify(values),
         })
+        data.ok &&
+            toast({
+                title: 'Success',
+                description: 'You have successfully registered',
+            })
+        data.ok && router.push('/login')
     }
 
     return (
