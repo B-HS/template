@@ -3,20 +3,22 @@ import { Button, buttonVariants } from '@shared/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@shared/ui/card'
 import { Input } from '@shared/ui/input'
 import { Label } from '@shared/ui/label'
+import { useToast } from '@shared/ui/use-toast'
 import { cn } from '@shared/utils'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChangeEventHandler, useState } from 'react'
 
 const LoginPage = () => {
-    const [msg, setMsg] = useState('')
+    const router = useRouter()
+    const { toast } = useToast()
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
     })
 
     const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        setMsg('')
         setLoginData({ ...loginData, [e.target.name]: e.target.value })
     }
 
@@ -24,7 +26,20 @@ const LoginPage = () => {
         signIn('credentials', {
             email: loginData.email,
             password: loginData.password,
-            callbackUrl: '/',
+            redirect: false,
+        }).then((res) => {
+            if (res?.error) {
+                toast({
+                    title: 'Error',
+                    description: 'Invalid email or password',
+                })
+                return 
+            }
+            toast({
+                title: 'Success',
+                description: 'You have successfully logged in',
+            })
+            router.push('/')
         })
 
     return (
@@ -53,7 +68,6 @@ const LoginPage = () => {
                             Don't have an account? Register here
                         </Link>
                     </CardDescription>
-                    {msg && <CardDescription>{msg}</CardDescription>}
                 </CardFooter>
             </Card>
         </section>
