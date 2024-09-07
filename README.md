@@ -4,7 +4,7 @@
 - 귀찮으니 미리 하나 공통으로 만들어 두자
 
 # 기술 스택
-- nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD
+- nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / Nextauth / AWS Cognito
 
 # 기능
 - video player
