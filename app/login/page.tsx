@@ -33,7 +33,7 @@ const LoginPage = () => {
                     title: 'Error',
                     description: 'Invalid email or password',
                 })
-                return 
+                return
             }
             toast({
                 title: 'Success',
@@ -65,7 +65,7 @@ const LoginPage = () => {
                     </Button>
                     <CardDescription>
                         <Link className={cn(buttonVariants({ variant: 'link' }), 'px-0')} href={'/register'}>
-                            Don't have an account? Register here
+                            Not registered yet? Sign up
                         </Link>
                     </CardDescription>
                 </CardFooter>

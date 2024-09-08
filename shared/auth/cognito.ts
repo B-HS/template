@@ -16,13 +16,13 @@ export const CognitoAuthentication = CredentialsProvider({
         })
 
         const cognitoUser = new CognitoUser({
-            Username: credentials?.email!,
+            Username: credentials?.email as string,
             Pool: userPool,
         })
 
         const authenticationDetails = new AuthenticationDetails({
-            Username: credentials?.email!,
-            Password: credentials?.password!,
+            Username: credentials?.email as string,
+            Password: credentials?.password as string,
         })
 
         return new Promise<CognitoUserType>((resolve, reject) => {
@@ -40,5 +40,3 @@ export const CognitoAuthentication = CredentialsProvider({
         })
     },
 })
-
-

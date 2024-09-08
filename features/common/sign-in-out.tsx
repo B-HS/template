@@ -7,7 +7,7 @@ export const SignInOut = async () => {
     const session = await auth()
     return (
         <>
-            {!!session?.user?.email ? (
+            {session?.user?.email ? (
                 <form
                     className='w-9 h-9'
                     action={async () => {
