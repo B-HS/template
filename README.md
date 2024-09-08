@@ -7,6 +7,9 @@
 # 기술 스택
 - nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / Nextauth / AWS Cognito
 
+# 버그
+- cognito 중복가입 방지
+
 # 기능
 
 -   video player
