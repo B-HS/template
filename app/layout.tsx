@@ -28,7 +28,7 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 <SessionProvider>
                     <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
                         <SiteHeader />
-                        <section className='max-w-screen-2xl mx-auto overflow-auto h-full w-full'>
+                        <section className='max-w-screen-2xl mx-auto overflow-auto size-full flex-1'>
                             {children}
                             <GoToTop />
                         </section>

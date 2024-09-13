@@ -63,10 +63,6 @@
     * {
         @apply border-border;
     }
-    html,
-    body {
-        @apply overflow-auto h-full;
-    }
     body {
         @apply bg-background text-foreground;
     }
