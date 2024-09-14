@@ -61,9 +61,31 @@
 
 @layer base {
     * {
-        @apply border-border;
+        @apply border-border leading-loose antialiased;
     }
+
     body {
         @apply bg-background text-foreground;
     }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply border-b w-full;
+    }
+}
+
+.heading-url {
+    @apply scroll-mt-16;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    scrollbar-width: none;
+    scroll-behavior: smooth !important;
 }
