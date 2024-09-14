@@ -6,8 +6,9 @@
 # 기술 스택
 - nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / next-auth / aws cognito / mdx
 
-# 버그
+# 수정 예정
 - cognito 중복가입 방지
+- cognito 이메일 lambda작성
 
 # 기능
 -   video player
