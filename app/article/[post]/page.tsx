@@ -16,11 +16,11 @@ export const generateMetadata = async ({ params }: { params: { post: string } })
             template: '%s | HS',
             default: frontmatter.title || 'Article',
         },
-        description: context || 'Article | BBlog',
-        keywords: frontmatter.tags?.join(', ') || 'Article | BBlog',
+        description: context || `Article | ${process.env.SITE_NAME}`,
+        keywords: frontmatter.tags?.join(', ') || `Article | ${process.env.SITE_NAME}`,
         openGraph: {
             title: frontmatter.title,
-            description: context || 'Article | BBlog',
+            description: context || `Article | ${process.env.SITE_NAME}`,
             images: [
                 {
                     url: `${frontmatter?.thumbnail}`,
@@ -35,8 +35,8 @@ export const generateMetadata = async ({ params }: { params: { post: string } })
                 alt: 'Post thumbnail',
             },
             title: frontmatter.title,
-            description: context || 'Article | BBlog',
-            creator: 'Hyunseok Byun',
+            description: context || `Article | ${process.env.SITE_NAME}`,
+            creator: process.env.AUTHOR || process.env.SITE_NAME || '',
             creatorId: params.post,
         },
     }
