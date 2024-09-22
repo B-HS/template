@@ -9,7 +9,7 @@ export const POST = async (req: NextRequest) => {
     try {
         const { email, nickname, password } = UserRegisteration.parse(body)
         await new Promise((resolve, reject) => {
-            userPool.signUp(
+            userPool().signUp(
                 randomUUID(),
                 password,
                 [new CognitoUserAttribute({ Name: 'email', Value: email }), new CognitoUserAttribute({ Name: 'nickname', Value: nickname })],
