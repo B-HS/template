@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "next dev --experimental-https",
         "build": "next build",
-        "prebuild": "node generate-env.js",
+        "prebuild": "AUTHOR=$AUTHOR COGNITO_CLIENT_ID=$COGNITO_CLIENT_ID COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID NEXTAUTH_SECRET=$NEXTAUTH_SECRET SITE_NAME=$SITE_NAME node generate-env.js",
         "start": "next start",
         "lint": "next lint",
         "pretty": "prettier --write .",
