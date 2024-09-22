@@ -1,3 +1,5 @@
+import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     transpilePackages: ['shiki', 'next-mdx-remote', 'next-mdx-remote/serialize'],
@@ -11,5 +13,6 @@ const nextConfig = {
         ],
     },
 }
+process.env.NODE_ENV === 'development' && (await setupDevPlatform())
 
 export default nextConfig

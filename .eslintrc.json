@@ -8,6 +8,7 @@
         "plugin:import/warnings",
         "plugin:import/typescript",
         "plugin:prettier/recommended",
+        "plugin:eslint-plugin-next-on-pages/recommended",
         "prettier"
     ],
     "env": {
@@ -21,11 +22,7 @@
         },
         "ecmaVersion": "latest"
     },
-    "plugins": [
-        "react",
-        "import",
-        "prettier"
-    ],
+    "plugins": ["react", "import", "prettier", "eslint-plugin-next-on-pages"],
     "rules": {
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
@@ -37,46 +34,18 @@
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [
-                    ".js",
-                    ".jsx",
-                    ".ts",
-                    ".tsx"
-                ]
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
             },
             "alias": {
                 "map": [
-                    [
-                        "@app",
-                        "./app"
-                    ],
-                    [
-                        "@pages",
-                        "./pages"
-                    ],
-                    [
-                        "@widgets",
-                        "./widgets"
-                    ],
-                    [
-                        "@features",
-                        "./features"
-                    ],
-                    [
-                        "@entities",
-                        "./entities"
-                    ],
-                    [
-                        "@shared",
-                        "./shared"
-                    ]
+                    ["@app", "./app"],
+                    ["@pages", "./pages"],
+                    ["@widgets", "./widgets"],
+                    ["@features", "./features"],
+                    ["@entities", "./entities"],
+                    ["@shared", "./shared"]
                 ],
-                "extensions": [
-                    ".js",
-                    ".jsx",
-                    ".ts",
-                    ".tsx"
-                ]
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
             }
         },
         "react": {

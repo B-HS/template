@@ -7,7 +7,10 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "pretty": "prettier --write ."
+        "pretty": "prettier --write .",
+        "pages:build": "npx @cloudflare/next-on-pages",
+        "preview": "npm run pages:build && wrangler pages dev",
+        "deploy": "npm run pages:build && wrangler pages deploy"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
@@ -75,6 +78,7 @@
         "zustand": "^4.5.5"
     },
     "devDependencies": {
+        "@cloudflare/next-on-pages": "^1.13.3",
         "@tailwindcss/typography": "^0.5.15",
         "@types/node": "^20.16.5",
         "@types/react": "^18.3.5",
@@ -83,6 +87,7 @@
         "eslint-config-next": "14.2.5",
         "eslint-config-prettier": "^9.1.0",
         "eslint-import-resolver-alias": "^1.1.2",
+        "eslint-plugin-next-on-pages": "^1.13.3",
         "eslint-plugin-prettier": "^5.2.1",
         "postcss": "^8.4.45",
         "prettier": "^3.3.3",
