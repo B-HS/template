@@ -11,7 +11,7 @@ const userPool =
     globalThis.cognitoUserPoolGlobal ??
     new CognitoUserPool({
         // @ts-ignore
-        UserPoolId: process.env.COGNITO_USER_POOL_ID || getRequestContext().COGNITO_USER_POOL_ID!,
+        UserPoolId: process.env.COGNITO_USER_POOL_ID || getRequestContext().env.COGNITO_USER_POOL_ID!,
         // @ts-ignore
         ClientId: process.env.COGNITO_CLIENT_ID || getRequestContext().env.COGNITO_CLIENT_ID!,
     })
