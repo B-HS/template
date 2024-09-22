@@ -1,3 +1,3 @@
-import { handlers } from '@shared/auth'
+import { auth } from '@shared/auth'
 
-export const { GET, POST } = handlers
+export const { GET, POST } = auth().handlers
