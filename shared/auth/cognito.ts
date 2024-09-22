@@ -1,7 +1,7 @@
 import { CognitoUserType } from '@entities/auth'
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import userPool from './cognito-userpool'
+import {userPool} from './cognito-userpool'
 
 export const CognitoAuthentication = CredentialsProvider({
     name: 'cognito',
@@ -13,7 +13,7 @@ export const CognitoAuthentication = CredentialsProvider({
     async authorize(credentials) {
         const cognitoUser = new CognitoUser({
             Username: credentials?.email as string,
-            Pool: userPool,
+            Pool: userPool(),
         })
 
         const authenticationDetails = new AuthenticationDetails({

@@ -1,13 +1,11 @@
 import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import { getRequestContext } from '@cloudflare/next-on-pages'
 
-
-
 declare const globalThis: {
     cognitoUserPoolGlobal: CognitoUserPool
 } & typeof global
 
-const userPool =
+export const userPool = () =>
     globalThis.cognitoUserPoolGlobal ??
     new CognitoUserPool({
         // @ts-ignore
@@ -16,6 +14,6 @@ const userPool =
         ClientId: process.env.COGNITO_CLIENT_ID || getRequestContext().env.COGNITO_CLIENT_ID!,
     })
 
-export default userPool
+userPool
 
-if (process.env.NODE_ENV !== 'production') globalThis.cognitoUserPoolGlobal = userPool
+if (process.env.NODE_ENV !== 'production') globalThis.cognitoUserPoolGlobal = userPool()

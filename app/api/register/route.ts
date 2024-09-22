@@ -1,5 +1,5 @@
 import { UserRegisteration } from '@entities/auth'
-import userPool from '@shared/auth/cognito-userpool'
+import { userPool } from '@shared/auth/cognito-userpool'
 import { randomUUID } from '@shared/utils'
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
 import { NextRequest, NextResponse } from 'next/server'
