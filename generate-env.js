@@ -5,6 +5,7 @@ const requiredEnvVars = ['AUTHOR', 'COGNITO_CLIENT_ID', 'COGNITO_USER_POOL_ID', 
 const envContent = requiredEnvVars
     .map((key) => {
         const value = process.env[key]
+        console.log(`Variable ${key}:`, value)
         if (!value) {
             console.warn(`Warning: Environment variable ${key} is not set.`)
         }
