@@ -1,10 +1,6 @@
 import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev'
-import { getRequestContext } from "@cloudflare/next-on-pages"
-
 /** @type {import('next').NextConfig} */
-const { env } = getRequestContext()
 const nextConfig = {
-    env,
     transpilePackages: ['shiki', 'next-mdx-remote', 'next-mdx-remote/serialize'],
     images: {
         formats: ['image/avif', 'image/webp'],
