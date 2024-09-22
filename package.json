@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "next dev --experimental-https",
         "build": "next build",
+        "prebuild": "node generate-env.js",
         "start": "next start",
         "lint": "next lint",
         "pretty": "prettier --write .",
