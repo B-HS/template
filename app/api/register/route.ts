@@ -16,7 +16,7 @@ const isUserExist = async (email: string) => {
 
     try {
         const command = new ListUsersCommand({
-            UserPoolId: userPool.getUserPoolId(),
+            UserPoolId: userPool().getUserPoolId(),
             Filter: `email = "${email}"`,
             Limit: 1,
         })

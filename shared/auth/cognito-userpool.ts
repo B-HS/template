@@ -14,6 +14,5 @@ export const userPool = () =>
         ClientId: process.env.COGNITO_CLIENT_ID || getRequestContext().env.COGNITO_CLIENT_ID!,
     })
 
-userPool
 
 if (process.env.NODE_ENV !== 'production') globalThis.cognitoUserPoolGlobal = userPool()

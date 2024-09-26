@@ -2,3 +2,12 @@ name = "my-app"
 compatibility_date = "2024-07-29"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+AUTHOR = "your-author-name"
+COGNITO_CLIENT_ID = "your-cognito-client-id"
+COGNITO_USER_POOL_ID = "your-cognito-user-pool-id"
+NEXTAUTH_SECRET = "your-next-auth-secret"
+SITE_NAME = "your-site-name"
+AWS_ACCESS_KEY_ID = "your-aws-access-key-id"
+AWS_SECRET_ACCESS_KEY = "your-aws-secret-access-key"
