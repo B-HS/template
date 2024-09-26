@@ -4,11 +4,7 @@
 -   귀찮으니 미리 하나 공통으로 만들어 두자
 
 # 기술 스택
-- nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / next-auth / aws cognito / mdx
-
-# 수정 예정
-- cognito 중복가입 방지
-- cognito 이메일 lambda작성
+- nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / next-auth / aws cognito / mdx / cloudflare R2 (aws s3)
 
 # 기능
 -   video player
@@ -19,3 +15,4 @@
 -   horizontal vertical scroll status component
 -   AWS Cognito user login/register
 -   MDX Renderer with custom components
+-   Image Upload
