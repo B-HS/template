@@ -1,6 +1,6 @@
 import { ListObjectsCommand } from '@aws-sdk/client-s3'
-import { NextRequest, NextResponse } from 'next/server'
-import { R2Client } from '../../../../shared/lib/r2client'
+import { R2Client } from '@shared/lib/r2client'
+import { NextResponse } from 'next/server'
 
 const imgList = async () => {
     const command = new ListObjectsCommand({
@@ -10,7 +10,7 @@ const imgList = async () => {
     return list
 }
 
-export const POST = async (request: NextRequest) => {
+export const POST = async () => {
     try {
         const filelist = await imgList()
         const contents = filelist.Contents

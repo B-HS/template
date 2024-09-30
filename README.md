@@ -4,7 +4,10 @@
 -   귀찮으니 미리 하나 공통으로 만들어 두자
 
 # 기술 스택
-- nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / next-auth / aws cognito / mdx / cloudflare R2 (aws s3)
+-   nextjs 14 / zustand / prettier / eslint / shadcn ui / FSD / next-auth / aws cognito / mdx / cloudflare R2 (aws s3)
+
+# 예정
+-   Github action 스크립트 작성 (SSH)
 
 # 기능
 -   video player
