@@ -40,7 +40,7 @@ jobs:
               run: docker build -t ${{ env.PROJECT_NAME }} .
 
             - name: Save Docker image as tar
-              run: docker save ${{ env.PROJECT_NAME }} -o ${PROJECT_NAME}.tar
+              run: docker save ${{ env.PROJECT_NAME }} -o ${{env.PROJECT_NAME}}.tar
 
             - name: Ensure remote directory exists
               uses: appleboy/ssh-action@v0.1.8
@@ -58,7 +58,7 @@ jobs:
                   host: ${{ secrets.HOST_IP }}
                   username: ${{ secrets.HOST_USERNAME }}
                   key: ${{ secrets.PEM_KEY }}
-                  source: './${PROJECT_NAME}.tar'
+                  source: './${{ env.PROJECT_NAME }}.tar'
                   target: '/home/${{ env.PROJECT_NAME }}'
 
             - name: Transfer docker-compose.yml to remote server
@@ -79,7 +79,7 @@ jobs:
                   port: 22
                   script: |
                       cd /home/${{ env.PROJECT_NAME }}
-                      if [ ! -f ${PROJECT_NAME}.tar ]; then
+                      if [ ! -f ${{ env.PROJECT_NAME }}.tar ]; then
                         echo "Docker image file not found!"
                         exit 1
                       fi
@@ -87,9 +87,9 @@ jobs:
                       if [ -n "$old_image" ]; then
                         docker rmi -f $old_image
                       fi
-                      docker load -i ${PROJECT_NAME}.tar
+                      docker load -i ${{ env.PROJECT_NAME }}.tar
                       docker compose down
                       docker compose up -d
 
             - name: Cleanup local Docker image tar
-              run: rm ${PROJECT_NAME}.tar
+              run: rm ${{ env.PROJECT_NAME }}.tar
