@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     transpilePackages: ['shiki', 'next-mdx-remote', 'next-mdx-remote/serialize'],
     images: {
         formats: ['image/avif', 'image/webp'],
