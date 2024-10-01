@@ -1,0 +1,18 @@
+services:
+    app:
+        image: '${PROJECT_NAME}'
+        container_name: '${PROJECT_NAME}_container'
+        restart: always
+        ports:
+            - '${PROJECT_PORT}:3000'
+        environment:
+            - NODE_ENV=production
+        volumes:
+            - /home/${PROJECT_NAME}/build:/usr/src/app
+        working_dir: /usr/src/app
+        command: pnpm start
+
+networks:
+    default:
+        external:
+            name: my_network

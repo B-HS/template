@@ -1,0 +1,71 @@
+name: Deploy Project
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        env:
+            PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+            HOST_IP: ${{ secrets.HOST_IP }}
+            HOST_USERNAME: ${{ secrets.HOST_USERNAME }}
+            PROJECT_PORT: ${{ secrets.PROJECT_PORT }}
+            ENV_TEXT: ${{ secrets.ENV_TEXT }}
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'pnpm'
+
+            - name: Install pnpm
+              run: npm install -g pnpm
+
+            - name: Restore pnpm cache
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 'latest'
+
+            - name: Create .env file
+              run: echo "${{ env.ENV_TEXT }}" > .env
+
+            - name: Install dependencies and build
+              run: |
+                  pnpm install
+                  pnpm build
+
+            - name: Build Docker Image
+              run: docker build -t ${{ env.PROJECT_NAME }} .
+
+            - name: Setup SSH
+              uses: webfactory/ssh-agent@v0.5.3
+              with:
+                  ssh-private-key: ${{ secrets.PEM_KEY }}
+
+            - name: Transfer Build Files to Host
+              run: |
+                  scp -o StrictHostKeyChecking=no -r ./ ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }}:/home/${{ env.PROJECT_NAME }}
+
+            - name: Transfer Docker Compose File if not exists
+              run: |
+                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "if [ ! -f /home/${{ env.PROJECT_NAME }}/docker-compose.yml ]; then
+                    scp -o StrictHostKeyChecking=no docker-compose.yml ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }}:/home/${{ env.PROJECT_NAME }}
+                  else
+                    echo 'docker-compose.yml already exists. Skipping transfer.'
+                  fi"
+
+            - name: Stop Existing Containers
+              run: |
+                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "cd /home/${{ env.PROJECT_NAME }} && docker-compose down || echo 'No running containers to stop'"
+
+            - name: Run Project with Docker Compose
+              run: |
+                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "cd /home/${{ env.PROJECT_NAME }} && PROJECT_NAME=${{ env.PROJECT_NAME }} PROJECT_PORT=${{ env.PROJECT_PORT }} docker-compose up -d"
