@@ -17,11 +17,13 @@ export const Resolution = ({ className }: { className?: ClassNameValue }) => {
     const quality = useMemo(() => resolutionMapper(extraOptions.qualities[currentQuality()]).height, [playerOptions.playing])
     return (
         <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-                <Button size={'icon'} variant={'ghost'} className={cn('rounded-none', className)}>
-                    <SlidersVertical />
-                </Button>
-            </TooltipTrigger>
+            {extraOptions.qualities.length !== 0 && (
+                <TooltipTrigger asChild>
+                    <Button size={'icon'} variant={'ghost'} className={cn('rounded-none', className)}>
+                        <SlidersVertical />
+                    </Button>
+                </TooltipTrigger>
+            )}
             <TooltipContent className='flex flex-col p-0' side='top'>
                 {quality !== '0' && (
                     <Fragment>
@@ -41,6 +43,7 @@ export const Resolution = ({ className }: { className?: ClassNameValue }) => {
                             {resolutionMapper(quality).height}p
                         </span>
                     ))}
+                    {extraOptions.qualities.length === 0 && <span className='px-2 py-1'>No quality options</span>}
                 </section>
             </TooltipContent>
         </Tooltip>

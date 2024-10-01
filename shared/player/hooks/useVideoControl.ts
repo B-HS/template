@@ -49,9 +49,9 @@ export const useVideoControl = () => {
         }
     }
 
-    const currentQuality = () => player?.getInternalPlayer('hls').currentLevel
+    const currentQuality = () => player?.getInternalPlayer('hls')?.currentLevel
 
-    const currentAudioTrack = () => player?.getInternalPlayer('hls').audioTrackController.audioTrack
+    const currentAudioTrack = () => player?.getInternalPlayer('hls')?.audioTrackController.audioTrack
 
     const currentSubtitle = () =>
         Array.from(player?.getInternalPlayer()!.textTracks || []).find((track: any) => track.mode === 'showing') as {
@@ -69,11 +69,11 @@ export const useVideoControl = () => {
     }
 
     const setAudioTrack = (index: number) => {
-        player && (player.getInternalPlayer('hls').audioTrackController.audioTrack = index)
+        player?.getInternalPlayer('hls') && (player.getInternalPlayer('hls').audioTrackController.audioTrack = index)
     }
 
     const setQuality = (index: number) => {
-        player && (player.getInternalPlayer('hls').currentLevel = index)
+        player?.getInternalPlayer('hls') && (player.getInternalPlayer('hls').currentLevel = index)
     }
 
     useEffect(() => {
