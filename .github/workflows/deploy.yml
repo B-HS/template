@@ -18,15 +18,16 @@ jobs:
 
         steps:
             - name: Checkout Code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
               with:
-                  node-version: '18'
-
-            - name: Install pnpm
-              run: npm install -g pnpm
+                node-version: '20'
+                cache: 'pnpm'
 
             - name: Create .env file
               run: echo "${{ env.ENV_TEXT }}" > .env
