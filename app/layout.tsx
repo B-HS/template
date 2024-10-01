@@ -19,8 +19,6 @@ const fontRound = M_PLUS_Rounded_1c({
     subsets: ['latin'],
     variable: '--font-mplus',
     weight: ['100', '300', '500', '700', '800', '900'],
-    display: 'swap',
-    adjustFontFallback: false,
 })
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
