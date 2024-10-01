@@ -20,6 +20,22 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+
+            - name: Install pnpm
+              run: npm install -g pnpm
+
+            - name: Create .env file
+              run: echo "${{ env.ENV_TEXT }}" > .env
+
+            - name: Install dependencies and build
+              run: |
+                  pnpm install
+                  pnpm build --turbo --output=standalone
+
             - name: Build Docker Image
               run: docker build -t ${{ env.PROJECT_NAME }} .
 
