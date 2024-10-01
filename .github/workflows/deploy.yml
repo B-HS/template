@@ -34,7 +34,7 @@ jobs:
             - name: Install dependencies and build
               run: |
                   pnpm install
-                  pnpm build --turbo --output=standalone
+                  pnpm build
 
             - name: Build Docker Image
               run: docker build -t ${{ env.PROJECT_NAME }} .
