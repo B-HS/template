@@ -55,21 +55,28 @@ jobs:
                   key: ${{ secrets.PEM_KEY }}
                   port: 22
                   script: |
+                      # Create the directory if it doesn't exist
+                      mkdir -p /home/${{ env.PROJECT_NAME }}
+                      
+                      # Transfer the Docker image tar to the remote server
                       scp -o StrictHostKeyChecking=no ${PROJECT_NAME}.tar ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }}:/home/${{ env.PROJECT_NAME }}/${PROJECT_NAME}.tar
-
+                      
                       cd /home/${{ env.PROJECT_NAME }}
                       if [ ! -f ${PROJECT_NAME}.tar ]; then
                         echo "Docker image file not found!"
                         exit 1
                       fi
-
+                      
+                      # Check and remove old Docker image if it exists
                       old_image=$(docker images -q ${{ env.PROJECT_NAME }}:latest)
                       if [ -n "$old_image" ]; then
                         docker rmi -f $old_image
                       fi
-
+                      
+                      # Load the new Docker image
                       docker load -i ${PROJECT_NAME}.tar
-
+                      
+                      # Run the container using docker compose
                       docker-compose down
                       PROJECT_NAME=${{ env.PROJECT_NAME }} PROJECT_PORT=${{ env.PROJECT_PORT }} docker-compose up -d
 
