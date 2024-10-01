@@ -1,4 +1,4 @@
-import Player from '@shared/player/player'
+import { Player } from '@shared/player/player'
 import { LinkIcon } from 'lucide-react'
 import { MDXComponents } from 'mdx/types'
 import Link from 'next/link'
@@ -36,7 +36,7 @@ const codeComponent = (props: DetailedHTMLProps<HTMLAttributes<HTMLElement> & { 
 }
 
 const VideoComponent = (props: DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> & { alt?: string }) => {
-    return <Player url={props.src || ''} title={props.alt} />
+    return <Player key={props.src} url={props.src || ''} title={props.alt} />
 }
 
 export const CustomComponents: MDXComponents = {

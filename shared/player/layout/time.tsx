@@ -1,7 +1,9 @@
 import dayjs from 'dayjs'
 import { useExtraOptionsStore } from '../player-store'
+
 export const Time = () => {
-    const { extraOptions } = useExtraOptionsStore()
+    const { state: extraOptions } = useExtraOptionsStore()
+
     const playedSeconds = extraOptions.playedSeconds
     const totalSeconds = extraOptions.player?.current?.getDuration()
 

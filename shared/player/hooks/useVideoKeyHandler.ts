@@ -3,7 +3,7 @@ import { usePlayerStore } from '../player-store'
 import { useVideoControl } from './useVideoControl'
 
 export const useVideoKeyHandler = () => {
-    const { playerOptions, setPlayerOptions } = usePlayerStore()
+    const { state: playerOptions, dispatch: setPlayerOptions } = usePlayerStore()
     const { playToggle, playSeekToBySeconds, muteToggle, fullscreenToggle, pipModeToggle } = useVideoControl()
     useEffect(() => {
         const handleKeyDown = (e: { key: string; code: string }) => {
@@ -26,10 +26,10 @@ export const useVideoKeyHandler = () => {
                 pipModeToggle()
             }
             if (e.key === 'ArrowUp') {
-                setPlayerOptions({ volume: playerOptions.volume < 0.95 ? playerOptions.volume + 0.05 : 1 })
+                setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { volume: playerOptions.volume < 0.95 ? playerOptions.volume + 0.05 : 1 } })
             }
             if (e.key === 'ArrowDown') {
-                setPlayerOptions({ volume: playerOptions.volume > 0.05 ? playerOptions.volume - 0.05 : 0 })
+                setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { volume: playerOptions.volume > 0.05 ? playerOptions.volume - 0.05 : 0 } })
             }
         }
         window.addEventListener('keydown', handleKeyDown)

@@ -10,9 +10,9 @@ import { resolutionMapper, useExtraOptionsStore, usePlayerStore } from '../playe
 
 export const Resolution = ({ className }: { className?: ClassNameValue }) => {
     const [current, setCurrent] = useState<string>('')
-    const { extraOptions } = useExtraOptionsStore()
+    const { state: playerOptions } = usePlayerStore()
+    const { state: extraOptions } = useExtraOptionsStore()
     const { currentQuality, setQuality } = useVideoControl()
-    const { playerOptions } = usePlayerStore()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const quality = useMemo(() => resolutionMapper(extraOptions.qualities[currentQuality()]).height, [playerOptions.playing])
     return (

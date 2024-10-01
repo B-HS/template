@@ -9,7 +9,7 @@ import { usePlayerStore } from '../player-store'
 
 export const Volume = ({ className }: { className?: ClassNameValue }) => {
     const { muteToggle } = useVideoControl()
-    const { playerOptions, setPlayerOptions } = usePlayerStore()
+    const { state: playerOptions, dispatch: setPlayerOptions } = usePlayerStore()
 
     return (
         <Tooltip delayDuration={0}>
@@ -33,7 +33,7 @@ export const Volume = ({ className }: { className?: ClassNameValue }) => {
                         max='1'
                         step='0.05'
                         value={playerOptions.volume}
-                        onChange={(e) => setPlayerOptions({ volume: parseFloat(e.target.value) })}
+                        onChange={(e) => setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { volume: parseFloat(e.target.value) } })}
                     />
                 </section>
             </TooltipContent>

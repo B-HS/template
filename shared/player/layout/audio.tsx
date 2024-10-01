@@ -10,20 +10,22 @@ import { useExtraOptionsStore, usePlayerStore } from '../player-store'
 
 export const Audio = ({ className }: { className?: ClassNameValue }) => {
     const [current, setCurrent] = useState<string>('')
-    const { extraOptions } = useExtraOptionsStore()
-    const { playerOptions } = usePlayerStore()
+    const { state: extraOptions } = useExtraOptionsStore()
+    const { state: playerOptions } = usePlayerStore()
     const { currentAudioTrack, setAudioTrack } = useVideoControl()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const audio = useMemo(() => currentAudioTrack(), [playerOptions.playing])
     return (
         <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-                <Button size={'icon'} variant={'ghost'} className={cn('rounded-none', className)}>
-                    <Headphones />
-                </Button>
-            </TooltipTrigger>
+            {extraOptions.audios.length !== 0 && (
+                <TooltipTrigger asChild>
+                    <Button size={'icon'} variant={'ghost'} className={cn('rounded-none', className)}>
+                        <Headphones />
+                    </Button>
+                </TooltipTrigger>
+            )}
             <TooltipContent className='flex flex-col p-0' side='top'>
-                {audio !== undefined && (
+                {audio !== undefined && extraOptions.audios.length !== 0 && (
                     <Fragment>
                         <span className='px-2 py-1 cursor-pointer'>{current || extraOptions.audios.find((ele) => ele.index === audio)?.name}</span>
                         <Separator className='my-0' />
@@ -42,6 +44,7 @@ export const Audio = ({ className }: { className?: ClassNameValue }) => {
                             {audio.name}
                         </span>
                     ))}
+                    {extraOptions.audios.length === 0 && <span className='px-2 py-1 cursor-pointer'>No audios</span>}
                 </section>
             </TooltipContent>
         </Tooltip>

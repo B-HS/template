@@ -8,21 +8,25 @@ import ReactPlayer from 'react-player'
 import { OnProgressProps } from 'react-player/base'
 import { useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
 import { Audio, Fullscreen, Language, Pip, Play, Resolution, Time, VideoSlider, Volume } from './layout'
-import { defaultExtraOptions, defaultPlayerOptions, useExtraOptionsStore, usePlayerStore } from './player-store'
+import { defaultExtraOptions, defaultPlayerOptions, ExtraProvider, PlayerProvider, useExtraOptionsStore, usePlayerStore } from './player-store' // Use your new context
 
-const Player = ({ url, title }: { url: string; title?: string }) => {
+const PlayerComponent = ({ url, title }: { url: string; title?: string }) => {
     const player = useRef<ReactPlayer>(null)
     const [isInitialized, setIsInitialized] = useState(false)
-    const { extraOptions, setExtraOptions } = useExtraOptionsStore()
-    const { playerOptions, setPlayerOptions } = usePlayerStore()
+    const { state: extraOptions, dispatch: setExtraOptions } = useExtraOptionsStore()
+    const { state: playerOptions, dispatch: setPlayerOptions } = usePlayerStore()
+
     const { playSeekTo, playToggle } = useVideoControl()
 
-    const videoOnprogressFn = (progress: OnProgressProps) => {
+    const videoOnProgressFn = (progress: OnProgressProps) => {
         setExtraOptions({
-            playedRatio: progress.played,
-            loadedRatio: progress.loaded,
-            loadedSeconds: Math.ceil(progress.loadedSeconds),
-            playedSeconds: Math.ceil(progress.playedSeconds),
+            type: 'SET_EXTRA_OPTIONS',
+            payload: {
+                playedRatio: progress.played,
+                loadedRatio: progress.loaded,
+                loadedSeconds: Math.ceil(progress.loadedSeconds),
+                playedSeconds: Math.ceil(progress.playedSeconds),
+            },
         })
     }
 
@@ -34,12 +38,13 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
     useVideoKeyHandler()
 
     useEffect(() => {
-        setExtraOptions({ player })
-        setPlayerOptions({ url })
+        setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: { player } })
+        setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { url } })
         setIsInitialized(true)
+
         return () => {
-            setPlayerOptions(defaultPlayerOptions)
-            setExtraOptions(defaultExtraOptions)
+            setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: defaultPlayerOptions })
+            setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: defaultExtraOptions })
         }
     }, [url, setPlayerOptions, setExtraOptions])
 
@@ -68,9 +73,9 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                                 max={100}
                                 min={0}
                                 step={0.000001}
-                                onPointerDown={() => setPlayerOptions({ playing: false })}
+                                onPointerDown={() => setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { playing: false } })}
                                 onValueChange={seekBarChange}
-                                onPointerUp={() => setPlayerOptions({ playing: true })}
+                                onPointerUp={() => setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { playing: true } })}
                             />
                             <section className='flex'>
                                 <Audio />
@@ -82,19 +87,26 @@ const Player = ({ url, title }: { url: string; title?: string }) => {
                             </section>
                         </section>
                     </section>
-                    <ReactPlayer
-                        config={{ file: { forceHLS: true, hlsOptions: {} } }}
-                        ref={player}
-                        onProgress={videoOnprogressFn}
-                        {...playerOptions}
-                    />
+                    <ReactPlayer config={{ file: { hlsOptions: {} } }} ref={player} onProgress={videoOnProgressFn} {...playerOptions} />
                 </section>
             </TooltipProvider>
         )
     )
 }
 
-export default dynamic(() => Promise.resolve(Player), {
+const PlayerContextWrapper = (props: { url: string; title?: string }) => {
+    return (
+        <PlayerProvider>
+            <ExtraProvider>
+                <PlayerComponent {...props} />
+            </ExtraProvider>
+        </PlayerProvider>
+    )
+}
+
+const Player = dynamic(() => Promise.resolve(PlayerContextWrapper), {
     ssr: false,
     loading: () => <div className='aspect-video blur-md bg-foreground/10 border' />,
 })
+
+export { Player }

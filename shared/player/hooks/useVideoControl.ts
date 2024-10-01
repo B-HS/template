@@ -3,16 +3,16 @@ import screenfull from 'screenfull'
 import { useExtraOptionsStore, usePlayerStore } from '../player-store'
 
 export const useVideoControl = () => {
-    const { extraOptions, setExtraOptions } = useExtraOptionsStore()
-    const { playerOptions, setPlayerOptions } = usePlayerStore()
+    const { state: extraOptions, dispatch: setExtraOptions } = useExtraOptionsStore()
+    const { state: playerOptions, dispatch: setPlayerOptions } = usePlayerStore()
     const player = extraOptions.player?.current
 
     const playToggle = (value?: boolean) => {
         if (value !== undefined) {
-            setPlayerOptions({ playing: value })
+            setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { playing: value } })
             return
         }
-        setPlayerOptions({ playing: !playerOptions.playing })
+        setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { playing: !playerOptions.playing } })
     }
 
     const playSeekTo = (fraction: number) => {
@@ -28,23 +28,23 @@ export const useVideoControl = () => {
     }
 
     const muteToggle = () => {
-        setPlayerOptions({ muted: !playerOptions.muted })
+        setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { muted: !playerOptions.muted } })
     }
 
     const playRateChange = (rate: number) => {
-        setPlayerOptions({ playbackRate: rate })
+        setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { playbackRate: rate } })
     }
 
     const pipModeToggle = () => {
-        setPlayerOptions({ pip: !playerOptions.pip })
+        setPlayerOptions({ type: 'SET_PLAYER_OPTIONS', payload: { pip: !playerOptions.pip } })
     }
 
     const fullscreenToggle = () => {
         if (screenfull.isFullscreen) {
-            setExtraOptions({ isFull: false })
+            setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: { isFull: false } })
             screenfull.exit()
         } else {
-            setExtraOptions({ isFull: false })
+            setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: { isFull: true } })
             screenfull.request(document.querySelector('.video-player')!)
         }
     }
@@ -79,54 +79,59 @@ export const useVideoControl = () => {
     useEffect(() => {
         if (player && extraOptions.loadedSeconds > 0) {
             const videoElement = player.getInternalPlayer('hls')
-            setExtraOptions({
-                qualities: videoElement.levels.map(
-                    (
-                        level: {
-                            bitrate: number
-                            width: number
-                            height: number
-                        },
-                        index: number,
-                    ) => ({
-                        index: index,
-                        bitrate: level.bitrate,
-                        resolution: `${level.width}x${level.height}`,
-                    }),
-                ),
-                audios: videoElement.audioTracks.map(
-                    (
-                        track: {
-                            name: string
-                            lang?: string
-                            groupId: string
-                        },
-                        index: number,
-                    ) => ({
-                        index: index,
-                        name: track.name,
-                        language: track.lang || '',
-                        groupId: track.groupId,
-                    }),
-                ),
-                languages: videoElement.subtitleTracks.map(
-                    (
-                        track: {
-                            name: string
-                            lang: string
-                            groupId: string
-                            kind: string
-                        },
-                        index: number,
-                    ) => ({
-                        index: index,
-                        name: track.name,
-                        language: track.lang,
-                        groupId: track.groupId,
-                        kind: track.kind,
-                    }),
-                ),
-            })
+            if (videoElement) {
+                setExtraOptions({
+                    type: 'SET_EXTRA_OPTIONS',
+                    payload: {
+                        qualities: videoElement.levels.map(
+                            (
+                                level: {
+                                    bitrate: number
+                                    width: number
+                                    height: number
+                                },
+                                index: number,
+                            ) => ({
+                                index: index,
+                                bitrate: level.bitrate,
+                                resolution: `${level.width}x${level.height}`,
+                            }),
+                        ),
+                        audios: videoElement.audioTracks.map(
+                            (
+                                track: {
+                                    name: string
+                                    lang?: string
+                                    groupId: string
+                                },
+                                index: number,
+                            ) => ({
+                                index: index,
+                                name: track.name,
+                                language: track.lang || '',
+                                groupId: track.groupId,
+                            }),
+                        ),
+                        languages: videoElement.subtitleTracks.map(
+                            (
+                                track: {
+                                    name: string
+                                    lang: string
+                                    groupId: string
+                                    kind: string
+                                },
+                                index: number,
+                            ) => ({
+                                index: index,
+                                name: track.name,
+                                language: track.lang,
+                                groupId: track.groupId,
+                                kind: track.kind,
+                            }),
+                        ),
+                    },
+                })
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [extraOptions.loadedSeconds])

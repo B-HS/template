@@ -46,13 +46,17 @@ const videoFormats = [
 ]
 
 export const remarkVideos = () => {
+    let videoIndex = 0
+
     const visitor = (node: any) => {
         if (videoFormats.some((format) => node.url.includes(format))) {
             node.type = 'mdxJsxFlowElement'
             node.name = 'video'
             node.attributes = [
                 { type: 'mdxJsxAttribute', name: 'src', value: node.url },
-                { type: 'mdxJsxAttribute', name: 'alt', value: node.alt },
+                { type: 'mdxJsxAttribute', name: 'alt', value: node.alt || '' },
+                { type: 'mdxJsxAttribute', name: 'controls', value: true },
+                { type: 'mdxJsxAttribute', name: 'key', value: `video-${videoIndex++}` },
             ]
             node.children = []
         }
@@ -60,10 +64,21 @@ export const remarkVideos = () => {
 
     const transform = (tree: any) => {
         visit(tree, 'image', visitor)
+
         visit(tree, 'paragraph', (node, index, parent) => {
             if (node.children.length === 1 && node.children[0].type === 'mdxJsxFlowElement' && node.children[0].name === 'video') {
                 if (parent.children && index !== undefined) {
                     parent.children[index] = node.children[0]
+                }
+            } else {
+                const videoElements = node.children.filter((child: any) => child.type === 'mdxJsxFlowElement' && child.name === 'video')
+
+                if (videoElements.length > 0) {
+                    const newChildren = node.children.flatMap((child: any) =>
+                        child.type === 'mdxJsxFlowElement' && child.name === 'video' ? [child, { type: 'text', value: '\n' }] : child,
+                    )
+
+                    parent.children.splice(index, 1, ...newChildren)
                 }
             }
         })
