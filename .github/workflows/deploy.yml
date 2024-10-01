@@ -45,7 +45,18 @@ jobs:
               run: docker build -t ${{ env.PROJECT_NAME }} .
 
             - name: Save Docker image as tar
-              run: docker save ${{ env.PROJECT_NAME }} -o ${PROJECT_NAME}.tar
+              run: |
+                  docker save ${{ env.PROJECT_NAME }} -o ${PROJECT_NAME}.tar
+                  ls -lh ${PROJECT_NAME}.tar # Verify that the file exists and is not empty
+
+            - name: Transfer Docker image to remote server
+              uses: appleboy/scp-action@v0.1.3
+              with:
+                  host: ${{ secrets.HOST_IP }}
+                  username: ${{ secrets.HOST_USERNAME }}
+                  key: ${{ secrets.PEM_KEY }}
+                  source: './${PROJECT_NAME}.tar'
+                  target: '/home/${{ env.PROJECT_NAME }}'
 
             - name: Ensure remote directory exists
               uses: appleboy/ssh-action@v0.1.8
