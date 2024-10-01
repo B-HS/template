@@ -35,6 +35,7 @@ const PlayerComponent = ({ url, title }: { url: string; title?: string }) => {
     }
 
     useVideoFullScreenHandler()
+    // useVideoKeyHandler() // Disabled, because it's not suitable for several players on the same page
 
     useEffect(() => {
         setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: { player } })
