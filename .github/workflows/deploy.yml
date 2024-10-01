@@ -44,27 +44,34 @@ jobs:
             - name: Build Docker Image
               run: docker build -t ${{ env.PROJECT_NAME }} .
 
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.5.3
+            - name: Save Docker image as tar
+              run: docker save ${{ env.PROJECT_NAME }} -o ${PROJECT_NAME}.tar
+
+            - name: Load Docker image, remove old image, and run container on remote server
+              uses: appleboy/ssh-action@v0.1.8
               with:
-                  ssh-private-key: ${{ secrets.PEM_KEY }}
+                  host: ${{ secrets.HOST_IP }}
+                  username: ${{ secrets.HOST_USERNAME }}
+                  key: ${{ secrets.PEM_KEY }}
+                  port: 22
+                  script: |
+                      scp -o StrictHostKeyChecking=no ${PROJECT_NAME}.tar ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }}:/home/${{ env.PROJECT_NAME }}/${PROJECT_NAME}.tar
 
-            - name: Transfer Build Files to Host
-              run: |
-                  scp -o StrictHostKeyChecking=no -r ./ ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }}:/home/${{ env.PROJECT_NAME }}
+                      cd /home/${{ env.PROJECT_NAME }}
+                      if [ ! -f ${PROJECT_NAME}.tar ]; then
+                        echo "Docker image file not found!"
+                        exit 1
+                      fi
 
-            - name: Transfer Docker Compose File if not exists
-              run: |
-                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "if [ ! -f /home/${{ env.PROJECT_NAME }}/docker-compose.yml ]; then
-                    scp -o StrictHostKeyChecking=no docker-compose.yml ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }}:/home/${{ env.PROJECT_NAME }}
-                  else
-                    echo 'docker-compose.yml already exists. Skipping transfer.'
-                  fi"
+                      old_image=$(docker images -q ${{ env.PROJECT_NAME }}:latest)
+                      if [ -n "$old_image" ]; then
+                        docker rmi -f $old_image
+                      fi
 
-            - name: Stop Existing Containers
-              run: |
-                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "cd /home/${{ env.PROJECT_NAME }} && docker-compose down || echo 'No running containers to stop'"
+                      docker load -i ${PROJECT_NAME}.tar
 
-            - name: Run Project with Docker Compose
-              run: |
-                  ssh -o StrictHostKeyChecking=no ${{ env.HOST_USERNAME }}@${{ env.HOST_IP }} "cd /home/${{ env.PROJECT_NAME }} && PROJECT_NAME=${{ env.PROJECT_NAME }} PROJECT_PORT=${{ env.PROJECT_PORT }} docker-compose up -d"
+                      docker-compose down
+                      PROJECT_NAME=${{ env.PROJECT_NAME }} PROJECT_PORT=${{ env.PROJECT_PORT }} docker-compose up -d
+
+            - name: Cleanup local Docker image tar
+              run: rm ${PROJECT_NAME}.tar
