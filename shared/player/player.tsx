@@ -6,9 +6,9 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { OnProgressProps } from 'react-player/base'
-import { useVideoControl, useVideoFullScreenHandler, useVideoKeyHandler } from './hooks'
+import { useVideoControl, useVideoFullScreenHandler } from './hooks'
 import { Audio, Fullscreen, Language, Pip, Play, Resolution, Time, VideoSlider, Volume } from './layout'
-import { defaultExtraOptions, defaultPlayerOptions, ExtraProvider, PlayerProvider, useExtraOptionsStore, usePlayerStore } from './player-store' // Use your new context
+import { defaultExtraOptions, defaultPlayerOptions, ExtraProvider, PlayerProvider, useExtraOptionsStore, usePlayerStore } from './player-store'
 
 const PlayerComponent = ({ url, title }: { url: string; title?: string }) => {
     const player = useRef<ReactPlayer>(null)
@@ -35,7 +35,6 @@ const PlayerComponent = ({ url, title }: { url: string; title?: string }) => {
     }
 
     useVideoFullScreenHandler()
-    useVideoKeyHandler()
 
     useEffect(() => {
         setExtraOptions({ type: 'SET_EXTRA_OPTIONS', payload: { player } })
