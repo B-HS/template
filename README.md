@@ -20,6 +20,7 @@
 -   AWS Cognito user login/register
 -   MDX Renderer with custom components
 -   Image Upload
+-   Markdown Editor with preview / Image manager
 
 # Github Action enviroment (secrets)
 - ENV_TEXT nextjs의 .env로 생성될 파일 (.env.template 참조)
