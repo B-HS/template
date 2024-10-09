@@ -21,7 +21,6 @@ export const MdxPage = async ({ frontmatter, content }: MdxPageProps) => {
                         <Separator orientation='vertical' />
                         <span className='text-xl font-bold'>{frontmatter?.title}</span>
                     </section>
-
                     <section className='flex items-center space-x-2 min-h-5'>
                         <span>{dayjs(frontmatter?.date).format('YYYY-MM-DD')}</span>
                         <Separator orientation='vertical' />
@@ -29,10 +28,13 @@ export const MdxPage = async ({ frontmatter, content }: MdxPageProps) => {
                     </section>
                 </section>
                 <Separator className='my-2' />
-                <section className='flex flex-wrap gap-2 py-3 justify-end'>
-                    <Tags tags={frontmatter?.tags} />
-                </section>
                 <section suppressHydrationWarning>{content}</section>
+                <Separator className='my-2' />
+                <section className='flex flex-col gap-1'>
+                    <section className='flex flex-wrap gap-2 py-3 justify-start'>
+                        <Tags tags={frontmatter?.tags} />
+                    </section>
+                </section>
             </section>
         </section>
     )

@@ -11,7 +11,7 @@ const HeaderCompoenet = (level: number) => {
         const id = props.children?.toString()?.replaceAll(' ', '-').toLowerCase()
 
         return (
-            <Link id={id} href={`#${id}`}>
+            <Link id={id} href={`#${id}`} className='heading-url'>
                 {createElement(
                     Tag,
                     { ...props },
