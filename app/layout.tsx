@@ -24,17 +24,19 @@ const fontRound = M_PLUS_Rounded_1c({
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang='ko' suppressHydrationWarning>
-            <body className={cn('flex flex-col min-h-dvh font-mplus antialiased', fontRound.variable)}>
-                <SessionProvider>
-                    <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-                        <SiteHeader />
-                        <section className='max-w-screen-2xl mx-auto overflow-auto size-full flex-1'>
-                            {children}
-                            <GoToTop />
-                        </section>
-                        <Toaster />
-                    </ThemeProvider>
-                </SessionProvider>
+            <body className={cn('flex flex-col min-h-dvh font-mplus antialiased size-full items-center', fontRound.variable)}>
+                <section className='max-w-screen-lg w-full'>
+                    <SessionProvider>
+                        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+                            <SiteHeader />
+                            <section className='flex-1 overflow-auto size-full'>
+                                {children}
+                                <GoToTop />
+                            </section>
+                            <Toaster />
+                        </ThemeProvider>
+                    </SessionProvider>
+                </section>
             </body>
         </html>
     )
