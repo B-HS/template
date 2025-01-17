@@ -8,7 +8,7 @@ import { M_PLUS_Rounded_1c } from 'next/font/google'
 import { FC, ReactNode } from 'react'
 import './globals.css'
 
-const GoToTop = dynamic(() => import('@features/common').then((comp) => comp.GoToTop), { ssr: false })
+const GoToTop = dynamic(() => import('@features/common').then((comp) => comp.GoToTop))
 
 export const metadata: Metadata = {
     title: 'Create Next App',

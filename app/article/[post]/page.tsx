@@ -6,7 +6,8 @@ import { Metadata } from 'next'
 import { MDXRemoteProps } from 'next-mdx-remote/rsc'
 import path from 'path'
 
-export const generateMetadata = async ({ params }: { params: { post: string } }): Promise<Metadata> => {
+export const generateMetadata = async (props: { params: Promise<{ post: string }> }): Promise<Metadata> => {
+    const params = await props.params
     const source = (await getPostSource(params.post)) as MDXRemoteProps['source']
     const { frontmatter } = await CustomMdx({ source })
     const context = (markdownToText(source?.toString().slice(0, 250)) || frontmatter.title || '')?.replace(/<\/?[^>]+(>|$)/g, '') + '...'
@@ -61,7 +62,8 @@ const manageViewCnt = async (postName: string) => {
     return Promise.resolve('0')
 }
 
-const RemoteMdxPage = async ({ params }: { params: { post: string } }) => {
+const RemoteMdxPage = async (props: { params: Promise<{ post: string }> }) => {
+    const params = await props.params
     const source = (await getPostSource(params.post)) as MDXRemoteProps['source']
     const viewCnt = await manageViewCnt(params.post)
     const comments = await getCommentList(params.post)
