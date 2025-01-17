@@ -4,7 +4,7 @@
 -   귀찮으니 미리 하나 공통으로 만들어 두자
 
 # 기술 스택
--   nextjs 14 / typescript
+-   nextjs 15 / typescript
 -   shadcn ui / zustand / mdx
 -   prettier / eslint / FSD
 -   cloudflare R2 (aws s3) / aws cognito / next-auth
