@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@shared/ui/input'
 import { Label } from '@shared/ui/label'
 import { useToast } from '@shared/ui/use-toast'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'

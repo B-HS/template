@@ -1,6 +1,6 @@
 import { CustomMdx, MdxPage } from '@features/mdx'
 import { Comments } from '@features/mdx/comments'
-import { markdownToText } from '@shared/utils'
+import { markdownToText } from '@shared/lib/utils'
 import fs from 'fs'
 import { Metadata } from 'next'
 import { MDXRemoteProps } from 'next-mdx-remote/rsc'

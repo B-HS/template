@@ -3,7 +3,7 @@
 import { Badge, badgeVariants } from '@shared/ui/badge'
 import { Input } from '@shared/ui/input'
 import { Label } from '@shared/ui/label'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { Dispatch, FC, SetStateAction, useState } from 'react'
 
 type EditTagsProps = {

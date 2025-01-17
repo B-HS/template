@@ -8,10 +8,13 @@
         "css": "app/globals.css",
         "baseColor": "neutral",
         "cssVariables": true,
-        "prefix": ""
+        "prefix": "",
+        "rsc": true
     },
     "aliases": {
-        "components": "shared",
-        "utils": "shared"
+        "components": "@shared",
+        "ui": "@shared/ui",
+        "utils": "@shared/utils",
+        "hooks": "@shared/hooks"
     }
 }

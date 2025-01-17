@@ -5,7 +5,7 @@ import { Button } from '@shared/ui/button'
 import { Input } from '@shared/ui/input'
 import { Label } from '@shared/ui/label'
 import { useToast } from '@shared/ui/use-toast'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { Dispatch, FC, SetStateAction } from 'react'
 
 type EditDescriptionProps = {

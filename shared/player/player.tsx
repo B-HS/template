@@ -1,7 +1,7 @@
 'use client'
 
 import { TooltipProvider } from '@shared/ui/tooltip'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'

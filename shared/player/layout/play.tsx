@@ -1,5 +1,5 @@
 import { Button } from '@shared/ui/button'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { PauseIcon, PlayIcon } from 'lucide-react'
 import { ClassNameValue } from 'tailwind-merge'
 import { usePlayerStore } from '../player-store'

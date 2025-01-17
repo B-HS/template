@@ -4,7 +4,7 @@ import * as React from 'react'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { Button } from '@shared/ui/button'
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -16,7 +16,6 @@ type CarouselProps = {
     opts?: CarouselOptions
     plugins?: CarouselPlugin
     orientation?: 'horizontal' | 'vertical'
-    // eslint-disable-next-line no-unused-vars
     setApi?: (api: CarouselApi) => void
 }
 

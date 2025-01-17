@@ -1,7 +1,7 @@
 'use client'
 
 import * as SliderPrimitive from '@radix-ui/react-slider'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import * as React from 'react'
 
 export const VideoSlider = React.forwardRef<

@@ -1,7 +1,7 @@
 import { Button } from '@shared/ui/button'
 import { Separator } from '@shared/ui/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@shared/ui/tooltip'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { Languages } from 'lucide-react'
 import { Fragment, useMemo, useState } from 'react'
 import { ClassNameValue } from 'tailwind-merge'

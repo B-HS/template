@@ -1,7 +1,7 @@
 import { TooltipContent } from '@radix-ui/react-tooltip'
 import { Button } from '@shared/ui/button'
 import { Tooltip, TooltipTrigger } from '@shared/ui/tooltip'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { Volume1Icon, Volume2Icon, VolumeXIcon } from 'lucide-react'
 import { ClassNameValue } from 'tailwind-merge'
 import { useVideoControl } from '../hooks'

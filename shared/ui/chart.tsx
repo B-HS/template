@@ -3,13 +3,12 @@
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
 
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const
 
 export type ChartConfig = {
-    // eslint-disable-next-line no-unused-vars
     [k in string]: {
         label?: React.ReactNode
         icon?: React.ComponentType
@@ -61,8 +60,7 @@ const ChartContainer = React.forwardRef<
 ChartContainer.displayName = 'Chart'
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
-    // eslint-disable-next-line no-unused-vars
-    const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color)
+    const colorConfig = Object.entries(config).filter(([, config]) => config.theme || config.color)
 
     if (!colorConfig.length) {
         return null

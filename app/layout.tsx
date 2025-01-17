@@ -1,5 +1,5 @@
 import { Toaster } from '@shared/ui/toaster'
-import { cn } from '@shared/utils'
+import { cn } from '@shared/lib/utils'
 import { SiteHeader } from '@widgets/header'
 import { SessionProvider, ThemeProvider } from '@widgets/provider'
 import type { Metadata } from 'next'
