@@ -7,7 +7,7 @@
 # 기술 스택
 
 -   nextjs 15 / typescript
--   shadcn ui / zustand / mdx
+-   tailwind v4 / shadcn ui / zustand / mdx
 -   prettier / eslint / FSD
 -   cloudflare R2 (aws s3) / aws cognito / next-auth
 -   github action script
