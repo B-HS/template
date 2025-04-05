@@ -12,7 +12,7 @@ interface MdxPageProps {
 export const MdxPage = async ({ frontmatter, content }: MdxPageProps) => {
     return (
         <section className='flex relative'>
-            <section className='markdown-prose container max-w-screen-lg py-7 bg-neutral-50 dark:bg-neutral-900 rounded my-5'>
+            <section className='markdown-prose container max-w-(--breakpoint-lg) py-7 bg-neutral-50 dark:bg-neutral-900 rounded my-5'>
                 <section className='flex justify-between items-center flex-wrap gap-2'>
                     <section className='flex items-center space-x-2 min-h-5'>
                         <Badge className='text-nowrap' variant={'outline'}>

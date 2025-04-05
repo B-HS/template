@@ -24,7 +24,7 @@ export const ScrollStatus = () => {
     return (
         <section className='relative w-dvw'>
             <section
-                className='top-0 z-[52] absolute bg-neutral-700 dark:bg-neutral-300 h-0.5 transition-all ease-out'
+                className='top-0 z-52 absolute bg-neutral-700 dark:bg-neutral-300 h-0.5 transition-all ease-out'
                 style={{ width: `${scrollPercentage}%` }}
             />
         </section>

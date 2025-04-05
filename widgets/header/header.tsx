@@ -11,8 +11,8 @@ const ThemeChanger = dynamic(() => import('@features/common').then((comp) => com
 
 export const SiteHeader = () => {
     return (
-        <header className='sticky top-0 z-50 w-full border-b backdrop-blur'>
-            <section className='flex h-14 justify-between items-center px-3 max-w-screen-2xl mx-auto'>
+        <header className='sticky top-0 z-50 w-full border-b backdrop-blur-sm'>
+            <section className='flex h-10 justify-between items-center px-3'>
                 <section className='flex items-center gap-1'>
                     <Link href={'/'} className='font-semibold'>
                         {process.env.SITE_NAME}
